@@ -1,0 +1,2 @@
+# XIVAPI.KR
+FFXIV KR Server API
