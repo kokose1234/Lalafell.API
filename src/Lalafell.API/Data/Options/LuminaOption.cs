@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace XIVAPI.KR.Data.Options;
+﻿namespace Lalafell.API.Data.Options;
 
 public sealed record LuminaOption
 {

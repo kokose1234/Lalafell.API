@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace XIVAPI.KR.Data.Dto;
+namespace Lalafell.API.Data.Dto;
 
 public record ItemDto
 {

@@ -1,7 +1,7 @@
-using Lumina;
-using XIVAPI.KR.Services;
+using Lalafell.API.Configurations;
+using Lalafell.API.Infrastructure;
 
-namespace XIVAPI.KR
+namespace Lalafell.API
 {
     public class Program
     {
@@ -16,7 +16,7 @@ namespace XIVAPI.KR
                 builder.Services.AddSwaggerGen();
                 builder.Services.AddResponseCompression();
                 builder.AddConfigurations();
-                builder.Services.AddServices(builder.Configuration);
+                builder.Services.AddInfrastructure(builder.Configuration);
 
                 var app = builder.Build();
 
@@ -33,6 +33,8 @@ namespace XIVAPI.KR
                 app.UseHttpsRedirection();
                 app.UseAuthorization();
                 app.MapControllers();
+                app.MapGraphQL();
+                app.UseRateLimiter();
                 app.Run();
             }
             catch (Exception ex) when (!ex.GetType().Name.Equals("HostAbortedException", StringComparison.Ordinal)) { }

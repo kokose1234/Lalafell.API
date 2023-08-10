@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XIVAPI.KR", "XIVAPI.KR\XIVAPI.KR.csproj", "{73491CC3-1136-462E-9B38-4E591E10B29A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lalafell.API", "Lalafell.API\Lalafell.API.csproj", "{73491CC3-1136-462E-9B38-4E591E10B29A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lalafell.API.Exporter", "Lalafell.API.Exporter\Lalafell.API.Exporter.csproj", "{54D56408-6E28-4027-B9D0-8DE19043E4B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{73491CC3-1136-462E-9B38-4E591E10B29A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73491CC3-1136-462E-9B38-4E591E10B29A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73491CC3-1136-462E-9B38-4E591E10B29A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54D56408-6E28-4027-B9D0-8DE19043E4B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54D56408-6E28-4027-B9D0-8DE19043E4B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54D56408-6E28-4027-B9D0-8DE19043E4B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54D56408-6E28-4027-B9D0-8DE19043E4B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

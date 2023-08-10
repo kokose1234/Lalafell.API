@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using XIVAPI.KR.Data.Dto;
-using XIVAPI.KR.Services;
+﻿using Lalafell.API.Data.Dto;
+using Lalafell.API.Infrastructure.Lumina;
+using Lalafell.API.Infrastructure.Lumina.Provider;
+using Microsoft.AspNetCore.Mvc;
 
-namespace XIVAPI.KR.Controllers.Item
+namespace Lalafell.API.Controllers.Item
 {
     [Route("api/[controller]")]
     [ApiController]
     public class SearchController : ControllerBase
     {
-        private readonly LuminaProvider _lumina;
+        private readonly ItemProvider _itemProvider;
 
-        public SearchController(LuminaProvider lumina)
+        public SearchController(ItemProvider itemProvider)
         {
-            _lumina = lumina;
+            _itemProvider = itemProvider;
         }
 
         [HttpGet]
@@ -23,7 +24,7 @@ namespace XIVAPI.KR.Controllers.Item
             try
             {
                 var searchQuery = query.ToLower();
-                var resultsQuery = _lumina.GetSearchItems()
+                var resultsQuery = _itemProvider.GetSearchItems()
                                           .Where(i => i.Value.Name.ToLower().Contains(searchQuery))
                                           .OrderByDescending(x => x.Value.ItemLevel)
                                           .Select(i => i.Value);

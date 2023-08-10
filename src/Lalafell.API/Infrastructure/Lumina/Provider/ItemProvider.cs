@@ -1,48 +1,38 @@
-﻿using Lumina;
-using Lumina.Data;
-using Lumina.Data.Structs;
+﻿using Lalafell.API.Data.Dto;
+using Lumina;
 using Lumina.Excel.GeneratedSheets;
-using Microsoft.Extensions.Options;
-using XIVAPI.KR.Data.Dto;
-using XIVAPI.KR.Data.Options;
 
-namespace XIVAPI.KR.Services;
+namespace Lalafell.API.Infrastructure.Lumina.Provider;
 
-public class LuminaProvider
+public class ItemProvider
 {
-    private const string ExcelLoadError = "Failed to load Excel sheet.";
-
     private readonly IReadOnlyDictionary<int, ItemDto> _items;
     private readonly IReadOnlyDictionary<int, ItemSearchDto> _searchItems;
     private readonly IReadOnlyList<ItemSearchCategoryDto> _itemSearchCategories;
-    private readonly IReadOnlyList<ItemUICategoryDto> _itemUICategories;
+    private readonly IReadOnlyList<ItemUICategoryDto> _itemUiCategories;
     private readonly IReadOnlyList<ClassJobCategoryDto> _classJobCategories;
 
-    public LuminaProvider(IOptions<LuminaOption> option)
-    {
-        var config = new LuminaOptions
-        {
-            DefaultExcelLanguage = Language.Korean,
-            CurrentPlatform = PlatformId.Win32,
-            PanicOnSheetChecksumMismatch = false,
-            ExcelSheetStrictCastingEnabled = true
-        };
-        var data = new GameData(option.Value.DataPath, config);
+    private readonly LuminaProvider _lumina;
 
-        _itemSearchCategories = LoadItemSearchCategories(data);
-        _itemUICategories = LoadItemUICategories(data);
-        _classJobCategories = LoadClassJobCategories(data);
-        _items = LoadItems(data);
-        _searchItems = LoadSearchItems(data);
+    public ItemProvider(LuminaProvider lumina)
+    {
+        _lumina = lumina;
+        _itemSearchCategories = LoadItemSearchCategories(_lumina.Data);
+        _itemUiCategories = LoadItemUICategories(_lumina.Data);
+        _classJobCategories = LoadClassJobCategories(_lumina.Data);
+        _items = LoadItems(_lumina.Data);
+        _searchItems = LoadSearchItems(_lumina.Data);
     }
 
     public IReadOnlyDictionary<int, ItemDto> GetItems() => _items;
+
+    public IQueryable<ItemDto> GetItemsQuery() => _items.Values.AsQueryable();
 
     public IReadOnlyDictionary<int, ItemSearchDto> GetSearchItems() => _searchItems;
 
     public IReadOnlyList<ItemSearchCategoryDto> GetItemSearchCategories() => _itemSearchCategories;
 
-    public IReadOnlyList<ItemUICategoryDto> GetItemUICategories() => _itemUICategories;
+    public IReadOnlyList<ItemUICategoryDto> GetItemUICategories() => _itemUiCategories;
 
     public IReadOnlyList<ClassJobCategoryDto> GetClassJobCategories() => _classJobCategories;
 
@@ -52,7 +42,7 @@ public class LuminaProvider
 
         if (items == null)
         {
-            throw new InvalidOperationException(ExcelLoadError);
+            throw new InvalidOperationException(LuminaProvider.EXCEL_LOAD_ERROR);
         }
 
         return items.Where(i => !string.IsNullOrEmpty(i.Name) && i.ItemUICategory.Value?.RowId >= 1)
@@ -80,14 +70,14 @@ public class LuminaProvider
 
         if (items == null)
         {
-            throw new InvalidOperationException(ExcelLoadError);
+            throw new InvalidOperationException(LuminaProvider.EXCEL_LOAD_ERROR);
         }
 
         return items.Where(i => !string.IsNullOrEmpty(i.Name) && i.ItemSearchCategory.Value?.RowId >= 1)
                     .ToDictionary(i => Convert.ToInt32(i.RowId), i => new ItemSearchDto
                     {
                         Id = Convert.ToInt32(i.RowId),
-                        Icon = $"/i/{(i.Icon / 1000) * 1000:D6}/{i.Icon:D6}.png",
+                        Icon = $"/i/{i.Icon / 1000 * 1000:D6}/{i.Icon:D6}.png",
                         Kind = new ItemSearchDto.ItemKind
                         {
                             Name = GetItemKind(Convert.ToInt32(i.ItemUICategory.Row))
@@ -109,7 +99,7 @@ public class LuminaProvider
 
         if (itemSearchCategories == null)
         {
-            throw new InvalidOperationException(ExcelLoadError);
+            throw new InvalidOperationException(LuminaProvider.EXCEL_LOAD_ERROR);
         }
 
         return itemSearchCategories.Select(i => new ItemSearchCategoryDto
@@ -127,7 +117,7 @@ public class LuminaProvider
 
         if (itemUICategories == null)
         {
-            throw new InvalidOperationException(ExcelLoadError);
+            throw new InvalidOperationException(LuminaProvider.EXCEL_LOAD_ERROR);
         }
 
         return itemUICategories.Select(i => new ItemUICategoryDto
@@ -143,7 +133,7 @@ public class LuminaProvider
 
         if (classJobCategories == null)
         {
-            throw new InvalidOperationException(ExcelLoadError);
+            throw new InvalidOperationException(LuminaProvider.EXCEL_LOAD_ERROR);
         }
 
         return classJobCategories.Select(i => new ClassJobCategoryDto

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace XIVAPI.KR.Data.Dto;
+namespace Lalafell.API.Data.Dto;
 
 public sealed record PaginationDto
 {

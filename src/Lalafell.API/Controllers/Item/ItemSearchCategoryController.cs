@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using XIVAPI.KR.Data.Dto;
-using XIVAPI.KR.Services;
+﻿using Lalafell.API.Data.Dto;
+using Lalafell.API.Infrastructure.Lumina;
+using Lalafell.API.Infrastructure.Lumina.Provider;
+using Microsoft.AspNetCore.Mvc;
 
-namespace XIVAPI.KR.Controllers.Item
+namespace Lalafell.API.Controllers.Item
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ItemSearchCategoryController : ControllerBase
     {
-        private readonly LuminaProvider _lumina;
+        private readonly ItemProvider _itemProvider;
 
-        public ItemSearchCategoryController(LuminaProvider lumina)
+        public ItemSearchCategoryController(ItemProvider itemProvider)
         {
-            _lumina = lumina;
+            _itemProvider = itemProvider;
         }
 
         [HttpGet]
@@ -22,7 +23,7 @@ namespace XIVAPI.KR.Controllers.Item
         {
             try
             {
-                return Ok(_lumina.GetItemSearchCategories());
+                return Ok(_itemProvider.GetItemSearchCategories());
             }
             catch (Exception)
             {

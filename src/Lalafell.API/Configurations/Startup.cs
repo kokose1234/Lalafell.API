@@ -1,6 +1,6 @@
-﻿using XIVAPI.KR.Data.Options;
+﻿using Lalafell.API.Data.Options;
 
-namespace XIVAPI.KR.Services;
+namespace Lalafell.API.Configurations;
 
 public static class Startup
 {
@@ -14,17 +14,5 @@ public static class Startup
         builder.Services.Configure<LuminaOption>(builder.Configuration.GetSection("Lumina"));
 
         return builder;
-    }
-
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration config)
-    {
-        return services
-               .AddRouting(options => options.LowercaseUrls = true)
-               .AddServices();
-    }
-
-    private static IServiceCollection AddServices(this IServiceCollection services)
-    {
-        return services.AddSingleton<LuminaProvider>();
     }
 }
