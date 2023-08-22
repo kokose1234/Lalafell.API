@@ -22,7 +22,7 @@ namespace XIVAPI.KR.Controllers.Item
         {
             try
             {
-                return Ok(_lumina.GetItems());
+                return Ok(_lumina.GetItems().Values);
             }
             catch (Exception)
             {
